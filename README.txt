@@ -22,12 +22,12 @@ What is in the folder
   recruitment-plan.html            Recruitment and retention plan
   data-review.html                 Data review without an EDC
   regulatory-knowledge-base.html   Regulatory knowledge base (with demo video)
-  css/styles.css                   All styling, shared by every page
-  js/site.js                       The slide-in menu, footer fade-in and footer clock
-  fonts/                           The Inter typeface (open source)
-  docs/                            Downloadable documents
+  styles.css                       All styling, shared by every page
+  site.js                          The slide-in menu and footer fade-in
+  *.woff2                          The Inter typeface (open source)
+  *.pdf, *.xlsx, *.py             Downloadable documents
 
 Swapping a document
-  Replace the file in docs/ with a new one that has exactly the same name.
+  Replace the file with a new one that has exactly the same name.
   The six mock PDFs carry a "MOCK DOCUMENT" footer on every page; a newly
   exported PDF will need that footer added again.
