@@ -1,6 +1,6 @@
 /* Tracy Adu portfolio. One stylesheet for every page. */
-@font-face{font-family:"Inter";src:url("../fonts/inter-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
-@font-face{font-family:"Inter";src:url("../fonts/inter-latin-wght-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Inter";src:url("inter-latin-wght-normal.woff2") format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Inter";src:url("inter-latin-wght-italic.woff2") format("woff2");font-weight:100 900;font-style:italic;font-display:swap}
 
 :root{
   --paper:#fff; --surface:#fff; --ink:#1d1d1f; --ink-2:#333336; --grey:#86868b; --muted:#6e6e73;
