@@ -7,7 +7,10 @@ plus two amendments found while building the test data:
   1. SZ06 anchors the baseline on the Visit 1 (consent) date, because the listing
      runs before randomization exists.
   2. Baseline = all diary days before randomization (not a fixed Day -56), because
-     a delayed Visit 3 makes baseline longer than 56 days.
+     a delayed Visit 3 makes baseline longer than 56 days. Inclusion 6 is still
+     checked on the first 56 days from Visit 1 (two 28-day segments), because the
+     protocol writes the criterion against an 8-week baseline. Days 57 onward stay
+     in baseline but do not count toward eligibility.
 
 Usage:
     python run_edit_checks.py <study_data.xlsx> <discrepancy_listing.xlsx> [YYYY-MM-DD]
@@ -20,6 +23,8 @@ import datetime as dt
 import pandas as pd
 
 COUNT_FIELDS = ["SZSPM", "SZSPNM", "SZCP", "SZSG"]
+ELIG_DAYS = 56     # Inclusion 6 is written against an 8-week baseline
+SEGMENT_DAYS = 28  # ...split into two consecutive 4-week segments
 CRITERIA = ["AESDTH", "AESLIFE", "AESHOSP", "AESDISAB", "AESCONG", "AESMIE"]
 
 
@@ -152,10 +157,14 @@ def sz_checks(sz, dm, out):
                 .drop_duplicates("SZDAT").set_index("SZDAT")
                 .reindex(pd.date_range(consent[sid], end - pd.Timedelta(days=1))))
         counts = base.SZCOUNT  # NaN = no usable data for that day
-        half1 = counts.iloc[:28].sum()
-        half2 = counts.iloc[28:].sum()
+        # Eligibility window: the first 56 days from Visit 1. A late Visit 3 adds
+        # baseline days, but they do not extend the second 4-week segment.
+        window = counts.iloc[:ELIG_DAYS]
+        late = counts.iloc[ELIG_DAYS:]                 # Day 57 onward, if any
+        half1 = window.iloc[:SEGMENT_DAYS].sum()       # days 1-28
+        half2 = window.iloc[SEGMENT_DAYS:].sum()       # days 29-56
         longest = run = 0
-        for x in counts:  # longest run of recorded seizure-free days
+        for x in window:  # longest run of recorded seizure-free days
             run = run + 1 if x == 0 else 0
             longest = max(longest, run)
         fails = []
@@ -163,6 +172,8 @@ def sz_checks(sz, dm, out):
         if half1 < 3: fails.append(f"weeks 1-4 = {int(half1)} < 3")
         if half2 < 3: fails.append(f"weeks 5-8 = {int(half2)} < 3")
         if longest > 25: fails.append(f"seizure-free run of {longest} days > 25")
+        if fails and len(late):  # tell the reviewer what was left out of the count
+            fails.append(f"{int(late.sum())} seizure(s) on {len(late)} baseline day(s) after Day 56 not counted")
         if fails:
             randomized = pd.notna(rand[sid])
             out.add("SZ06", "Soft", sid, "SZ", "Baseline period", "SZCOUNT (derived)", "; ".join(fails),

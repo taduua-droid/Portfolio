@@ -113,6 +113,7 @@ h3{font-size:1.15rem;line-height:1.25;letter-spacing:-.02em;font-weight:600}
 
 /* Fact strip under page titles */
 .meta{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:24px;border-top:1px solid var(--line);margin-top:clamp(36px,5vw,64px)}
+.meta--3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .meta>div{padding:16px 0 18px;border-bottom:1px solid var(--line)}
 .meta dt{font-size:.8rem;color:var(--muted)}
 .meta dd{font-size:1rem;line-height:1.35;margin-top:4px;font-weight:500;letter-spacing:-.01em}

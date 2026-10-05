@@ -14,7 +14,7 @@
 </head>
 <body id="top">
 <header class="site-header"><div class="wrap">
-  <span class="hd-left">New York, NY</span>
+  <span class="hd-left"></span>
   <a class="hd-name" href="index.html">Tracy Adu</a>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"></button>
 </div></header>
@@ -92,22 +92,23 @@
   <div class="grid-2"><div>
     <div class="stack">
       <div class="panel card"><h3>Anchor baseline on the consent date</h3><p>The eligibility listing runs before randomization exists, so it counts from Visit 1, the consent date.</p></div>
-      <div class="panel card"><h3>Baseline is every day before randomization</h3><p>A fixed Day −56 breaks when Visit 3 is delayed, because the real baseline is then longer than 56 days.</p></div>
+      <div class="panel card"><h3>Baseline can run long; the eligibility window can’t</h3><p>A fixed Day −56 breaks when Visit 3 is delayed, so baseline is every day before randomization. Inclusion 6 is still written against 8 weeks, so SZ06 checks only the first 56 days from Visit 1, in two 28-day halves.</p></div>
     </div>
   </div>
   <figure>
 <pre class="code"><span class="c"># SZ06: baseline seizure criteria (Inclusion 6)
-# Amended: start at consent, end the day before randomization</span>
+# Amended: start at consent; check the first 56 days only</span>
 base = diary_days(start=consent, end=randomization)
-counts = base.SZCOUNT       <span class="c"># blank day = no usable data</span>
-half1 = counts.iloc[:28].sum()
-half2 = counts.iloc[28:].sum()
+window = base.SZCOUNT.iloc[:56]   <span class="c"># blank day = no usable data</span>
+half1 = window.iloc[:28].sum()    <span class="c"># days 1–28</span>
+half2 = window.iloc[28:].sum()    <span class="c"># days 29–56</span>
 
 if half1 + half2 &lt; 8: fails.append("total &lt; 8")
 if half1 &lt; 3:         fails.append("weeks 1–4 &lt; 3")
 if half2 &lt; 3:         fails.append("weeks 5–8 &lt; 3")
 if longest &gt; 25:      fails.append("seizure-free run &gt; 25 days")</pre>
     <figcaption class="small muted mt-s">Simplified excerpt from run_edit_checks.py</figcaption>
+    <p class="small muted mt-s"><strong>Corrected 05-OCT-2026.</strong> On re-review, SZ06 let the second 4-week half run past Day 56 when Visit 3 was late. It now checks the first 56 days only. Re-run on v1.1: no change to the listing.</p>
   </figure></div>
 </section>
 
@@ -228,7 +229,7 @@ if longest &gt; 25:      fails.append("seizure-free run &gt; 25 days")</pre>
     <div class="foot-links"><a href="https://www.linkedin.com/in/tracy-adu" target="_blank" rel="noopener">LinkedIn ↗</a><a href="mailto:taduu.a@gmail.com">Email ↗</a><a href="cv.html">CV ↗</a></div>
   </div>
   <p class="foot-note">All study materials are mock documents built on a publicly posted protocol. Synthetic data only. Not affiliated with any sponsor.</p>
-  <div class="foot-row"><span>© 2026 Tracy Adu</span><span id="clock">New York, NY</span><a href="#top">Back to top ↑</a></div>
+  <div class="foot-row"><span>© 2026 Tracy Adu</span><a href="#top">Back to top ↑</a></div>
 </div></footer>
 <script src="site.js" defer></script>
 </body>
