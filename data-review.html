@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data review without an EDC | Tracy Adu</title>
+<meta name="description" content="A full offline data review cycle: 19 edit checks in Python, a discrepancy listing, 20 queries, an audit trail and a clean re-run.">
+<meta property="og:title" content="Data review without an EDC | Tracy Adu">
+<meta property="og:description" content="A full offline data review cycle: 19 edit checks in Python, a discrepancy listing, 20 queries, an audit trail and a clean re-run.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d1d1f'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='700' fill='%23ffffff' text-anchor='middle'%3ETA%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body id="top">
+<header class="site-header"><div class="wrap">
+  <span class="hd-left">New York, NY</span>
+  <a class="hd-name" href="index.html">Tracy Adu</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"></button>
+</div></header>
+<div class="menu-backdrop"></div>
+<nav class="menu" id="menu" aria-label="Site">
+  <div class="menu-main"><a href="index.html">Home</a><a href="index.html#work">Projects</a><a href="cv.html">CV</a><a href="#contact">Contact</a></div>
+  <p class="menu-h">Projects</p>
+  <div class="menu-projects"><a href="operations-packet.html"><span>01</span>Protocol operations packet</a><a href="consent-kit.html"><span>02</span>Consent kit</a><a href="recruitment-plan.html"><span>03</span>Recruitment and retention plan</a><a href="regulatory-knowledge-base.html"><span>04</span>Regulatory knowledge base</a><a href="data-review.html"><span>05</span>Data review without an EDC</a></div>
+  <div class="menu-connect"><p class="menu-h">Connect</p><a href="https://www.linkedin.com/in/tracy-adu" target="_blank" rel="noopener">LinkedIn ↗</a><a href="mailto:taduu.a@gmail.com">Email ↗</a></div>
+</nav>
+<div class="banner"><div class="wrap">Synthetic data. Site responses, dates, and turnaround times are simulated to show a realistic review cycle. Not affiliated with the sponsor or any study site.</div></div>
+<main><div class="wrap">
+<section class="page-hero">
+  <a class="back" href="index.html#tools"><span class="arr" aria-hidden="true">←</span> All projects</a>
+  <p class="eyebrow">Projects and tools · 2026</p>
+  <h1 class="title">Data review without an EDC</h1>
+  <p class="lede">A full offline data review cycle for a mock epilepsy trial: 19 edit checks programmed in Python, a discrepancy listing, 20 queries to three sites, an audit trail for every correction, and a re-run that confirms the data is clean.</p>
+  <dl class="meta">
+    <div><dt>Protocol no.</dt><dd><a href="https://clinicaltrials.gov/study/NCT01866111" target="_blank" rel="noopener">NCT01866111</a></dd></div>
+    <div><dt>Study</dt><dd>YKP3089C017, dose-response trial</dd></div>
+    <div><dt>Synthetic data</dt><dd>20 subjects at 3 sites, 3,934 diary days, 32 adverse events</dd></div>
+    <div><dt>Forms</dt><dd>Demographics, seizure diary, adverse events</dd></div>
+    <div><dt>Tools</dt><dd>Python (pandas), Excel</dd></div>
+    <div><dt>My role</dt><dd>Data reviewer (simulated)</dd></div>
+    <div><dt>Data versions</dt><dd>v1.0 reviewed, v1.1 corrected</dd></div>
+    <div><dt>Prepared by</dt><dd>T. Adu</dd></div>
+  </dl>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>The review cycle, start to finish</h2><p class="statement">Without an EDC, nothing blocks a bad entry when it’s typed. <span class="g">Every check runs after the fact, and a person reviews every hit before a query goes out.</span></p></div>
+  <ol class="steps">
+    <li><small>1. Run checks</small><b>25</b><span>hits from 19 programmed checks on the v1.0 data</span></li>
+    <li><small>2. Review hits</small><b>20</b><span>queries, after merging hits with a shared cause and routing screen failures to listing review</span></li>
+    <li><small>3. Query and resolve</small><b>20/20</b><span>closed, one after a re-query when the first answer didn’t resolve it</span></li>
+    <li><small>4. Correct and audit</small><b>21</b><span>data changes, each logged with old value, new value, who, when, and why</span></li>
+    <li class="done"><small>5. Re-run</small><b>0</b><span>new discrepancies on v1.1; the 7 remaining hits were already reviewed and closed</span></li>
+  </ol>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>Nineteen edit checks</h2><p class="statement">Each check is tied to a protocol rule. <span class="g">Hard checks flag data that can’t be right; soft checks flag data that might be right but needs a second look.</span></p></div>
+  <div class="grid-3" style="align-items:start">
+    <div class="panel"><h3 style="margin-bottom:10px">Demographics</h3><ul class="checks">
+      <li><b>DM01</b><span>Age at consent outside 18 to 70</span><em>Soft</em></li>
+      <li><b>DM02</b><span>Screening number doesn’t match the site</span><em class="h">Hard</em></li>
+      <li><b>DM03</b><span>Childbearing potential answered for females only</span><em class="h">Hard</em></li>
+      <li><b>DM04</b><span>Birth date before consent; consent not in the future</span><em class="h">Hard</em></li>
+      <li><b>DM05</b><span>Randomization outside the 8-week baseline, ±2 days</span><em>Soft</em></li>
+      <li><b>DM06</b><span>First dose not the morning after randomization</span><em>Soft</em></li>
+    </ul></div>
+    <div class="panel"><h3 style="margin-bottom:10px">Seizure diary</h3><ul class="checks">
+      <li><b>SZ01</b><span>Diary flag disagrees with the counts entered</span><em class="h">Hard</em></li>
+      <li><b>SZ02</b><span>Two records for the same date</span><em class="h">Hard</em></li>
+      <li><b>SZ03</b><span>Diary date before consent or after the diary was returned</span><em class="h">Hard</em></li>
+      <li><b>SZ04</b><span>More than 20 seizures of one type in a day</span><em>Soft</em></li>
+      <li><b>SZ05</b><span>Missing diary days</span><em>Soft</em></li>
+      <li><b>SZ06</b><span>Baseline doesn’t meet the seizure-count rule (Inclusion 6)</span><em>Soft</em></li>
+    </ul></div>
+    <div class="panel"><h3 style="margin-bottom:10px">Adverse events</h3><ul class="checks">
+      <li><b>AE01</b><span>End date before start date</span><em class="h">Hard</em></li>
+      <li><b>AE02</b><span>Ongoing status, end date, and outcome disagree</span><em class="h">Both</em></li>
+      <li><b>AE03</b><span>Serious flag disagrees with seriousness criteria</span><em class="h">Hard</em></li>
+      <li><b>AE04</b><span>Started before consent</span><em>Soft</em></li>
+      <li><b>AE05</b><span>Started before first dose but marked as related</span><em>Soft</em></li>
+      <li><b>AE06</b><span>A seizure recorded as an AE (protocol 10.4.1)</span><em>Soft</em></li>
+      <li><b>AE07</b><span>Fatal outcome not marked serious with death</span><em class="h">Hard</em></li>
+    </ul></div>
+  </div>
+  <p class="small muted mt-s" style="max-width:none">Two review listings run alongside the checks: <b style="color:var(--ink)">ML01</b> flags dose reductions in Week 1 or after Week 8, and <b style="color:var(--ink)">ML02</b> lists serious adverse events for reconciliation against the safety database.</p>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>Two fixes to the spec, found by testing</h2><p class="statement">Building the test data exposed two places where the data management spec would have produced wrong results.</p></div>
+  <div class="grid-2"><div>
+    <div class="stack">
+      <div class="panel card"><h3>Anchor baseline on the consent date</h3><p>The eligibility listing runs before randomization exists, so it counts from Visit 1, the consent date.</p></div>
+      <div class="panel card"><h3>Baseline is every day before randomization</h3><p>A fixed Day −56 breaks when Visit 3 is delayed, because the real baseline is then longer than 56 days.</p></div>
+    </div>
+  </div>
+  <figure>
+<pre class="code"><span class="c"># SZ06: baseline seizure criteria (Inclusion 6)
+# Amended: start at consent, end the day before randomization</span>
+base = diary_days(start=consent, end=randomization)
+counts = base.SZCOUNT       <span class="c"># blank day = no usable data</span>
+half1 = counts.iloc[:28].sum()
+half2 = counts.iloc[28:].sum()
+
+if half1 + half2 &lt; 8: fails.append("total &lt; 8")
+if half1 &lt; 3:         fails.append("weeks 1–4 &lt; 3")
+if half2 &lt; 3:         fails.append("weeks 5–8 &lt; 3")
+if longest &gt; 25:      fails.append("seizure-free run &gt; 25 days")</pre>
+    <figcaption class="small muted mt-s">Simplified excerpt from run_edit_checks.py</figcaption>
+  </figure></div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>Four queries, start to close</h2><p class="statement">Most queries end in a simple correction. <span class="g">These four show the cases that take judgment.</span></p></div>
+  <div class="grid-2">
+    <div class="panel panel--doc q-card">
+      <div class="panel-head"><h3>QRY-011: a re-query</h3><span class="small muted">SZ01, Hard, Site 002</span></div>
+      <dl class="q-rows">
+        <dt>Query</dt><dd>The diary says no data was recorded for this day, but seizure counts are entered.</dd>
+        <dt>Site</dt><dd class="site">The subject reported no seizures that day.</dd>
+        <dt class="dr">Re-query</dt><dd>If there were no seizures, the flag should be Yes with counts of 0. If the diary page is blank, counts should be blank. Which applies?</dd>
+        <dt>Site</dt><dd class="site">The diary page is blank. Zeros removed.</dd>
+        <dt>Data review</dt><dd>The day is now left out of the seizure-rate denominator instead of counting as seizure-free.</dd>
+      </dl>
+      <div class="q-foot"><span class="chip">Data corrected</span><span class="chip chip--plain">13 days to site response</span></div>
+    </div>
+    <div class="panel panel--doc q-card">
+      <div class="panel-head"><h3>QRY-009: an escalation</h3><span class="small muted">SZ06, Soft, Site 003</span></div>
+      <dl class="q-rows">
+        <dt>Query</dt><dd>The diary data shows only 2 qualifying seizures in weeks 1 to 4 of baseline, short of the 3 that Inclusion 6 requires. Please verify against source.</dd>
+        <dt>Site</dt><dd class="site">Entries re-verified against the diary. The data are correct.</dd>
+        <dt class="dr">Data review</dt><dd>Data confirmed and escalated to the CRA and medical monitor as a potential eligibility deviation. Whether the subject continues is the sponsor’s decision, not data review’s.</dd>
+      </dl>
+      <div class="q-foot"><span class="chip chip--y">Escalated</span><span class="chip chip--plain">5 days to site response</span></div>
+    </div>
+    <div class="panel panel--doc q-card">
+      <div class="panel-head"><h3>QRY-020: one cause, two checks</h3><span class="small muted">SZ03 and SZ05, Site 002</span></div>
+      <dl class="q-rows">
+        <dt>Query</dt><dd>A diary date of 11-OCT-2026 falls after the diary was returned on 16-SEP-2026, and 11-SEP-2026 has no record. Please verify the date.</dd>
+        <dt>Site</dt><dd class="site">The month was mistyped. Corrected to 11-SEP-2026.</dd>
+        <dt class="dr">Data review</dt><dd>Raised as one query so the site wasn’t asked the same thing twice. One correction cleared both hits.</dd>
+      </dl>
+      <div class="q-foot"><span class="chip">Data corrected</span><span class="chip chip--plain">6 days to site response</span></div>
+    </div>
+    <div class="panel panel--doc q-card">
+      <div class="panel-head"><h3>QRY-017: a serious event</h3><span class="small muted">AE03, Hard, Site 002</span></div>
+      <dl class="q-rows">
+        <dt>Query</dt><dd>This pneumonia is marked serious, but no seriousness criterion is checked. Please review.</dd>
+        <dt>Site</dt><dd class="site">Admitted for 4 days, discharge summary on file. Hospitalization criterion set to Yes. SAE form sent to safety within 24 hours.</dd>
+        <dt class="dr">Data review</dt><dd>Verified and added to the SAE reconciliation list.</dd>
+      </dl>
+      <div class="q-foot"><span class="chip">Data corrected</span><span class="chip chip--plain">3 days to site response</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>The audit trail</h2><p class="statement">Every one of the 21 changes records the old value, the new value, who made it, when, and the query behind it, in the style of a 21 CFR Part 11 audit trail. <span class="g">A derived field gets its own line when the system recalculates it.</span></p></div>
+  <div class="panel"><div class="scroll-x"><table class="tbl audit">
+    <thead><tr><th>Audit ID</th><th>Date</th><th>Subject</th><th>Field</th><th>Old value</th><th>New value</th><th>Changed by</th><th>Query</th></tr></thead>
+    <tbody>
+    <tr><td class="b">AT-002</td><td>07-FEB-2026</td><td>01003005</td><td>SITEID</td><td><del>002</del></td><td class="b">003</td><td class="m">Site 003 coordinator</td><td>QRY-002</td></tr>
+    <tr><td class="b">AT-004</td><td>22-FEB-2026</td><td>01002006</td><td>BRTHDAT</td><td><del>28-OCT-1952</del></td><td class="b">28-OCT-1982</td><td class="m">Site 002 coordinator</td><td>QRY-004</td></tr>
+    <tr><td class="b">AT-005</td><td>22-FEB-2026</td><td>01002006</td><td>AGE</td><td><del>73</del></td><td class="b">43</td><td class="m">System (derived)</td><td>QRY-004</td></tr>
+    <tr><td class="b">AT-008</td><td>22-APR-2026</td><td>01003001</td><td>Diary record, 29-MAR-2026</td><td><del>Duplicate record</del></td><td class="b">(deleted)</td><td class="m">Site 003 coordinator</td><td>QRY-008</td></tr>
+    </tbody>
+  </table></div></div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>The numbers</h2><p class="statement">The metrics tab tracks what a data manager reports to the study team.</p></div>
+  <div class="stats">
+    <div><b>5.6</b><span>average days to site response</span></div>
+    <div><b>85%</b><span>of queries answered within 7 days</span></div>
+    <div><b>7.1</b><span>average days from query opened to closed</span></div>
+    <div><b>0.63</b><span>queries per 1,000 data points, out of 31,841 entered</span></div>
+  </div>
+  <div class="grid-2 mt-s">
+    <div class="panel">
+      <h3 style="margin-bottom:14px">How the 20 queries were resolved</h3>
+      <div class="resbar" role="img" aria-label="16 data corrected, 3 confirmed correct, 1 escalated"><i style="width:80%"></i><i class="b" style="width:15%"></i><i class="c" style="width:5%"></i></div>
+      <div class="key"><span><i></i><b>16</b> data corrected (80%)</span><span><i class="b"></i><b>3</b> confirmed correct (15%)</span><span><i class="c"></i><b>1</b> escalated (5%)</span></div>
+    </div>
+    <div class="panel">
+      <h3 style="margin-bottom:14px">Response time by site</h3>
+      <table class="tbl">
+        <thead><tr><th>Site</th><th class="r">Queries</th><th class="r">Avg days</th><th class="r" style="padding-right:0">Longest</th></tr></thead>
+        <tbody>
+        <tr><td>Site 001</td><td class="r">6</td><td class="r">3.5</td><td class="r" style="padding-right:0">5</td></tr>
+        <tr><td>Site 002</td><td class="r">7</td><td class="r">6.3</td><td class="r b" style="padding-right:0">13</td></tr>
+        <tr><td>Site 003</td><td class="r">7</td><td class="r">6.6</td><td class="r" style="padding-right:0">9</td></tr>
+        </tbody>
+      </table>
+      <p class="small muted mt-s">Site 002’s 13 days is the re-queried QRY-011.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>Judgment calls</h2><p class="statement">Decisions a check can’t make on its own.</p></div>
+  <div class="grid-3">
+    <div class="panel card"><h3>Blank isn’t zero</h3><p>A blank diary day and a seizure-free day mean different things. Treating blanks as zeros would make seizures look less frequent, so blank days stay out of the seizure-rate denominator.</p></div>
+    <div class="panel card"><h3>One cause, one query</h3><p>Twice, two checks fired on the same underlying error. Each pair went out as a single query, so the site was never asked the same thing twice.</p></div>
+    <div class="panel card"><h3>Data review doesn’t decide eligibility</h3><p>When correct data showed a possible eligibility deviation, the job was to confirm the data and escalate it, not to rule on whether the subject stays.</p></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>Rules applied</h2><ul class="kv">
+      <li><b>21 CFR Part 11</b><span>Audit trails for electronic records</span></li>
+      <li><b>ICH E6(R3)</b><span>Data integrity and record keeping</span></li>
+      <li><b>Inclusion 6</b><span>Baseline seizure criteria</span></li>
+      <li><b>Protocol §10.3, §10.4.1</b><span>AE relationship; when a seizure is an AE</span></li>
+    </ul></div>
+  <div class="sec-head"><h2>Download the files</h2><div><div class="docs">
+      <a class="doc" href="docs/study-data-v1.1.xlsx" download><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg> Study data, v1.1 <small>XLSX</small></a>
+      <a class="doc" href="docs/run_edit_checks.py" download><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5.5 4.5 2 8l3.5 3.5M10.5 4.5 14 8l-3.5 3.5"/></svg> Edit check script <small>Python</small></a>
+      <a class="doc" href="docs/data-management-spec.pdf" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg> Data management spec <small>PDF</small></a>
+      <a class="doc" href="docs/data-review-package.xlsx" download><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M3 13.5h10"/></svg> Discrepancy listing <small>XLSX</small></a>
+    </div><p class="small muted mt-s">All data is synthetic.</p></div></div>
+</section>
+</div></main>
+<div class="next"><div class="wrap"><a href="operations-packet.html"><span class="label">Next project</span><span class="big">Protocol operations packet&nbsp;<i aria-hidden="true">↗</i></span></a></div></div>
+<footer class="site-footer" id="contact"><div class="wrap reveal">
+  <div class="foot-top">
+    <div><span class="label">Contact me</span><a class="mail" href="mailto:taduu.a@gmail.com">taduu.a@gmail.com</a></div>
+    <div class="foot-links"><a href="https://www.linkedin.com/in/tracy-adu" target="_blank" rel="noopener">LinkedIn ↗</a><a href="mailto:taduu.a@gmail.com">Email ↗</a><a href="cv.html">CV ↗</a></div>
+  </div>
+  <p class="foot-note">All study materials are mock documents built on a publicly posted protocol. Synthetic data only. Not affiliated with any sponsor.</p>
+  <div class="foot-row"><span>© 2026 Tracy Adu</span><span id="clock">New York, NY</span><a href="#top">Back to top ↑</a></div>
+</div></footer>
+<script src="js/site.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Local regulatory knowledge base | Tracy Adu</title>
+<meta name="description" content="A private, offline tool that answers questions about clinical-research regulations and shows the source passage behind every answer.">
+<meta property="og:title" content="Local regulatory knowledge base | Tracy Adu">
+<meta property="og:description" content="A private, offline tool that answers questions about clinical-research regulations and shows the source passage behind every answer.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231d1d1f'/%3E%3Ctext x='32' y='43' font-family='Arial,sans-serif' font-size='30' font-weight='700' fill='%23ffffff' text-anchor='middle'%3ETA%3C/text%3E%3C/svg%3E">
+<link rel="preload" href="fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css">
+<script>document.documentElement.className = 'js';</script>
+</head>
+<body id="top">
+<header class="site-header"><div class="wrap">
+  <span class="hd-left">New York, NY</span>
+  <a class="hd-name" href="index.html">Tracy Adu</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Open menu"></button>
+</div></header>
+<div class="menu-backdrop"></div>
+<nav class="menu" id="menu" aria-label="Site">
+  <div class="menu-main"><a href="index.html">Home</a><a href="index.html#work">Projects</a><a href="cv.html">CV</a><a href="#contact">Contact</a></div>
+  <p class="menu-h">Projects</p>
+  <div class="menu-projects"><a href="operations-packet.html"><span>01</span>Protocol operations packet</a><a href="consent-kit.html"><span>02</span>Consent kit</a><a href="recruitment-plan.html"><span>03</span>Recruitment and retention plan</a><a href="regulatory-knowledge-base.html"><span>04</span>Regulatory knowledge base</a><a href="data-review.html"><span>05</span>Data review without an EDC</a></div>
+  <div class="menu-connect"><p class="menu-h">Connect</p><a href="https://www.linkedin.com/in/tracy-adu" target="_blank" rel="noopener">LinkedIn ↗</a><a href="mailto:taduu.a@gmail.com">Email ↗</a></div>
+</nav>
+
+<main><div class="wrap">
+<section class="page-hero">
+  <a class="back" href="index.html#tools"><span class="arr" aria-hidden="true">←</span> All projects</a>
+  <p class="eyebrow">Projects and tools · 2026</p>
+  <h1 class="title">Local regulatory knowledge base</h1>
+  <p class="lede">A private, offline tool that answers questions about clinical-research regulations and shows the source passage behind every answer — built from scratch, then stress-tested until it earned trust.</p>
+  <div class="video mt-l"><iframe src="https://www.youtube-nocookie.com/embed/lWYZl85pcl0" title="Demo of the local regulatory knowledge base" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+  <p class="small muted mt-s">If the player doesn’t load, <a href="https://www.youtube.com/watch?v=lWYZl85pcl0" target="_blank" rel="noopener">watch the demo on YouTube</a>.</p>
+  <dl class="meta">
+    <div><dt>What</dt><dd>Local RAG over 6 regulations, with cited sources</dd></div>
+    <div><dt>Corpus</dt><dd>172 passages · ICH E6(R3) · 21 CFR 11/50/56/312 · 45 CFR 46</dd></div>
+    <div><dt>Runs on</dt><dd>One laptop · nothing leaves the machine · public data only</dd></div>
+    <div><dt>Built</dt><dd>August 2026</dd></div>
+  </dl>
+</section>
+
+<section class="sec">
+  <div class="sec-head">
+    <h2>What it is, and why it’s built this way</h2>
+    <div class="prose">
+      <p>Ask a plain-language question — “What criteria must an IRB use to approve research?” — and a language model running entirely on the laptop answers only from the retrieved regulation text, then shows that text so a human can verify it. If the answer isn’t in the loaded documents, it says so instead of guessing.</p>
+      <p>The design principle throughout: a confident, fluent, wrong regulatory answer is worse than no answer. Every choice — local hosting, grounded prompting, visible sources, an honest evaluation — serves that one idea. The tool isn’t the deliverable. The judgment about when to trust it is.</p>
+    </div>
+  </div>
+  <div class="sec-head">
+    <h2>Stack</h2>
+    <ul class="pills"><li>Ollama</li><li>qwen3:8b</li><li>nomic-embed-text</li><li>LlamaIndex</li><li>Chroma</li><li>pypdf</li><li>Streamlit</li></ul>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><h2>How it was built</h2><p class="statement">Six phases.</p></div>
+  <ol class="phases">
+    <li><b>Environment</b><span>Ollama + a right-sized local model, a current Python, an isolated virtual environment, LlamaIndex + Chroma.</span></li>
+    <li><b>Corpus</b><span>Public regulations pulled straight from eCFR and ICH, each logged with its URL and retrieval date.</span></li>
+    <li><b>Ingest</b><span>Extract text from the PDFs, split into passages, embed them locally, store the vectors in Chroma.</span></li>
+    <li><b>Query loop</b><span>Retrieve the closest passages, answer from them under a strict grounding prompt, print the sources.</span></li>
+    <li><b>Verify &amp; document</b><span>Show sources beside every answer; a README stating scope, sources, and the verify-before-trust rule.</span></li>
+    <li><b>Web app</b><span>A Streamlit interface so it’s a real app, not a terminal script — the version that gets demoed.</span></li>
+  </ol>
+</section>
+</div></main>
+<div class="next"><div class="wrap"><a href="data-review.html"><span class="label">Next project</span><span class="big">Data review without an EDC&nbsp;<i aria-hidden="true">↗</i></span></a></div></div>
+<footer class="site-footer" id="contact"><div class="wrap reveal">
+  <div class="foot-top">
+    <div><span class="label">Contact me</span><a class="mail" href="mailto:taduu.a@gmail.com">taduu.a@gmail.com</a></div>
+    <div class="foot-links"><a href="https://www.linkedin.com/in/tracy-adu" target="_blank" rel="noopener">LinkedIn ↗</a><a href="mailto:taduu.a@gmail.com">Email ↗</a><a href="cv.html">CV ↗</a></div>
+  </div>
+  <p class="foot-note">All study materials are mock documents built on a publicly posted protocol. Synthetic data only. Not affiliated with any sponsor.</p>
+  <div class="foot-row"><span>© 2026 Tracy Adu</span><span id="clock">New York, NY</span><a href="#top">Back to top ↑</a></div>
+</div></footer>
+<script src="js/site.js" defer></script>
+</body>
+</html>
